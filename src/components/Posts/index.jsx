@@ -2,7 +2,7 @@ import { PostCard } from "../PostCard";
 
 import './styles.css'
 
-export function Posts({ posts }) {
+export function Posts({ posts = [] }) {
   return (
     <div className="posts">
       {posts.map(post => (
