@@ -1,11 +1,13 @@
-import { PostCard } from "../PostCard";
+import PropTypes from 'prop-types'
+
+import { PostCard } from '../PostCard'
 
 import './styles.css'
 
-export function Posts({ posts = [] }) {
+export function Posts({ posts }) {
   return (
     <div className="posts">
-      {posts.map(post => (
+      {posts.map((post) => (
         <PostCard
           key={post.id}
           title={post.title}
@@ -16,4 +18,12 @@ export function Posts({ posts = [] }) {
       ))}
     </div>
   )
+}
+
+Posts.defaultProps = {
+  posts: []
+}
+
+Posts.propTypes = {
+  posts: PropTypes.array
 }

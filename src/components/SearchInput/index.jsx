@@ -1,4 +1,7 @@
-import './styles.css';
+import PropTypes from 'prop-types'
+
+import './styles.css'
+
 export function SearchInput({ searchValue, handleChange }) {
   return (
     <input
@@ -9,4 +12,9 @@ export function SearchInput({ searchValue, handleChange }) {
       placeholder="Type your search"
     />
   )
+}
+
+SearchInput.propTypes = {
+  searchValue: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired
 }
