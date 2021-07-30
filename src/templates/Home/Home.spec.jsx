@@ -117,4 +117,21 @@ describe('<Home />', () => {
       screen.getByText('Não existem posts com esse nome')
     ).toBeInTheDocument()
   })
+
+  it('should load more posts', async () => {
+    render(<Home />)
+    const noMorePosts = screen.getByText('Não existem posts com esse nome')
+
+    // expect.assertions()
+
+    await waitForElementToBeRemoved(noMorePosts)
+
+    const button = screen.getByRole('button', { name: /load more posts/i })
+
+    userEvent.click(button)
+    expect(
+      screen.getByRole('heading', { name: 'title3 3' })
+    ).toBeInTheDocument()
+    expect(button).toBeDisabled()
+  })
 })
