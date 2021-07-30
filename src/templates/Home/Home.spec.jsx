@@ -1,5 +1,6 @@
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import userEvent from '@testing-library/user-event'
 
 import {
   render,
@@ -32,55 +33,6 @@ const handlers = [
           title: 'title3',
           body: 'body3',
           url: 'img3.jpg'
-        },
-        {
-          userId: 4,
-          id: 4,
-          title: 'title4',
-          body: 'body4',
-          url: 'img4.jpg'
-        },
-        {
-          userId: 5,
-          id: 5,
-          title: 'title5',
-          body: 'body5',
-          url: 'img5.jpg'
-        },
-        {
-          userId: 6,
-          id: 6,
-          title: 'title6',
-          body: 'body6',
-          url: 'img6.jpg'
-        },
-        {
-          userId: 7,
-          id: 7,
-          title: 'title7',
-          body: 'body7',
-          url: 'img7.jpg'
-        },
-        {
-          userId: 8,
-          id: 8,
-          title: 'title8',
-          body: 'body8',
-          url: 'img8.jpg'
-        },
-        {
-          userId: 9,
-          id: 9,
-          title: 'title9',
-          body: 'body9',
-          url: 'img9.jpg'
-        },
-        {
-          userId: 10,
-          id: 10,
-          title: 'title10',
-          body: 'body10',
-          url: 'img10.jpg'
         }
       ])
     )
@@ -112,9 +64,57 @@ describe('<Home />', () => {
     expect(search).toBeInTheDocument()
 
     const images = screen.getAllByRole('img', { name: /title/i })
-    expect(images).toHaveLength(10)
+    expect(images).toHaveLength(2)
 
     const button = screen.getByRole('button', { name: /load more posts/i })
     expect(button).toBeInTheDocument()
+  })
+
+  it('should search for posts', async () => {
+    render(<Home />)
+    const noMorePosts = screen.getByText('Não existem posts com esse nome')
+
+    expect.assertions(10)
+
+    await waitForElementToBeRemoved(noMorePosts)
+
+    const search = screen.getByPlaceholderText(/type your search/i)
+
+    expect(
+      screen.getByRole('heading', { name: 'title1 1' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'title2 2' })
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: 'title3 3' })
+    ).not.toBeInTheDocument()
+
+    userEvent.type(search, 'title1')
+    expect(
+      screen.getByRole('heading', { name: 'title1 1' })
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: 'title2 2' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: 'title3 3' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Search value: title1' })
+    ).toBeInTheDocument()
+
+    userEvent.clear(search)
+    expect(
+      screen.getByRole('heading', { name: 'title1 1' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'title2 2' })
+    ).toBeInTheDocument()
+
+    userEvent.type(search, 'post does not exist')
+    expect(
+      screen.getByText('Não existem posts com esse nome')
+    ).toBeInTheDocument()
   })
 })

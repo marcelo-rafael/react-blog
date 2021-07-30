@@ -17,6 +17,6 @@ export const postsPropsMock = {
       title: 'title 3',
       body: 'body 3',
       cover: 'img/img3.png'
-    },
+    }
   ]
 }
