@@ -36,7 +36,9 @@ React Blog
 
 ## :computer: About
 
-Simple project to train basic react.js and build external API
+
+Simple project to train basic react.js and external API consumption.
+Developed through the course of [React.js + Next.js](https://www.udemy.com/course/curso-de-reactjs-nextjs-completo-do-basico-ao-avancado/)
 
 The project was first created in class components using an API [JSONPlaceholder] (https://jsonplaceholder.typicode.com/) consuming two routes.
 Then the project was migrated to function components with useState and useEffect and typed with the prop-types lib.
